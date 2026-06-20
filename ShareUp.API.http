@@ -1,0 +1,6 @@
+@ShareUp.API_HostAddress = http://localhost:5270
+
+GET {{ShareUp.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
