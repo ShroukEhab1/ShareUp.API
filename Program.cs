@@ -25,7 +25,8 @@ builder.Services.AddCors(options =>
   options.AddPolicy("AngularLocalPolicy",
       policy =>
       {
-        policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost") // يسمح بأي بورت من localhost
+        policy.WithOrigins("http://shareup-app.runasp.net", "https://shareup-app.runasp.net") // روابط الفرونت إند المرفوع
+                .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost") // الإبقاء على الـ localhost للتطوير
                 .AllowAnyHeader()
                 .AllowAnyMethod();
       });
