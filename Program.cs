@@ -20,7 +20,7 @@ builder.Services.AddScoped<ISettlementService, SettlementService>();
             .AllowAnyMethod());
 });
 */
-builder.Services.AddCors(options =>
+/*builder.Services.AddCors(options =>
 {
   options.AddPolicy("AngularLocalPolicy",
       policy =>
@@ -31,7 +31,17 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
       });
 });
-
+*/
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("AllowVercel", policy =>
+  {
+    policy.WithOrigins("https://share-up-beta.vercel.app") // رابط الـ Vercel الخاص بكِ
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials(); // اختياري: إذا كنتِ تستخدمين الـ Cookies أو Tokens
+  });
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -39,13 +49,15 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+app.UseRouting();
+app.UseCors("AllowVercel");
 //app.UseCors("AllowAngular");
-app.UseCors("AngularLocalPolicy");
+//app.UseCors("AngularLocalPolicy");
 
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())
 {*/
-  app.UseSwagger();
+app.UseSwagger();
   app.UseSwaggerUI();
 //}
 
